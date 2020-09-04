@@ -1,40 +1,51 @@
-import React, { Component } from "react";
-/* 1 import axios */
+import React from "react";
 import axios from "axios";
 
-class Login extends Component {
-  /* initilisasi state untuk login */
-  state = {
-    password: "",
-    username: "",
-  };
+const Login = () => {
+  const [password, setPassword] = React.useState("");
+  const [username, setUsername] = React.useState("");
 
-  /* function post data login */
-  handleSubmitLogin() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     axios
       .post("http://18.141.178.15:8080/login", {
-        password: this.state.password,
-        username: this.state.password,
+        password: password,
+        username: username,
       })
       .then((res) => {
-        console.log(res.data);
+        alert(` ${res.data.message}, ${username} anda berhasil Login `);
       })
-      .catch((error) => {
-        console.log(error);
+      .then((response) => {
+        axios.get("http://18.141.178.15:8080/checklist").then((response) => {
+          console.log(response.data.message);
+        });
+      })
+      .catch((err) => {
+        alert(err);
       });
-  }
-  render() {
-    return (
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={this.handleSubmitLogin}>
-          <input type="text" placeholder="password is here..." />
-          <input type="text" placeholder="username is here..." />
-          <input type="button" value="submit" />
-        </form>
-      </div>
-    );
-  }
-}
+  };
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          autoComplete="off"
+          placeholder="password is here..."
+        />
+        <input
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          type="text"
+          placeholder="username is here..."
+        />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
+};
 
 export default Login;

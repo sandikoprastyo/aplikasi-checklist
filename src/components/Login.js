@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import CheckList from "./checklist";
 
 const Login = () => {
   const [password, setPassword] = React.useState("");
@@ -14,11 +15,6 @@ const Login = () => {
       })
       .then((res) => {
         alert(` ${res.data.message}, ${username} anda berhasil Login `);
-      })
-      .then((response) => {
-        axios.get("http://18.141.178.15:8080/checklist").then((response) => {
-          console.log(response.data.message);
-        });
       })
       .catch((err) => {
         alert(err);
@@ -44,6 +40,7 @@ const Login = () => {
         />
         <input type="submit" value="Submit" />
       </form>
+      <CheckList />
     </div>
   );
 };
